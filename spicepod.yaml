@@ -1,3 +1,187 @@
-name: my-spicepod
+name: models
 kind: Spicepod
-version: v1beta1
+version: v1
+
+catalogs:   
+  - dataset_params:
+      databricks_aws_access_key_id: ${secrets:DATASOURCE_AWS_ACCESS_KEY_ID}
+      databricks_aws_secret_access_key: ${secrets:DATASOURCE_AWS_SECRET_ACCESS_KEY}
+    from: databricks:spiceai_sandbox
+    include:
+      - demo.*
+      - tpch.*
+      - tpcds.*
+    name: db_uc
+    params:
+      databricks_cluster_id: ${secrets:SPICE_DATABRICKS_CLUSTER_ID}
+      databricks_endpoint: ${secrets:SPICE_DATABRICKS_ENDPOINT}
+      databricks_token: ${secrets:SPICE_DATABRICKS_TOKEN}
+      mode: spark_connect
+      
+  - from: spice.ai:spiceai/tpch
+    name: spiceai_tpch
+    params:
+      spiceai_api_key: ${secrets:SPICEAI_TPCH_API_KEY}
+      spiceai_endpoint: https://data.spiceai.io
+      spiceai_flight_endpoint: https://flight.spiceai.io
+    
+datasets:   
+  - from: s3://spiceai-demo-datasets/taxi_trips/2024/
+    name: taxi_trips_1
+    description: Taxi trips dataset from Spice.ai demo datasets.
+    params:
+      file_format: parquet
+    acceleration:
+      enabled: true
+      
+  - from: s3://spiceai-demo-datasets/taxi_trips/2024/
+    name: taxi_trips_2
+    description: Taxi trips dataset from Spice.ai demo datasets.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/customer/
+    name: tpch.customer
+    description: TPC-H benchmark customer dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/lineitem/
+    name: tpch.lineitem
+    description: TPC-H benchmark lineitem dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/nation/
+    name: tpch.nation
+    description: TPC-H benchmark nation dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/orders/
+    name: tpch.orders
+    description: TPC-H benchmark orders dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/part/
+    name: tpch.part
+    description: TPC-H benchmark part dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/partsupp/
+    name: tpch.partsupp
+    description: TPC-H benchmark partsupp dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/region/
+    name: tpch.region
+    description: TPC-H benchmark region dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/tpch/supplier/
+    name: tpch.supplier
+    description: TPC-H benchmark supplier dataset.
+    params:
+      file_format: parquet
+      
+  - from: s3://spiceai-demo-datasets/taxi_trips/2024/
+    name: samples.taxi_trips
+    description: Taxi trips dataset from Spice.ai demo datasets.
+    params:
+      file_format: parquet
+      
+  - from: spice.ai/spiceai/docs/datasets/spice.spiceai.docs
+    name: spiceai.docs
+    description: Spice.ai documentation and reference from https://docs.spice.ai.
+    params:
+      spiceai_api_key: ${ secrets:SPICEAI_API_KEY }
+    metadata:
+      instructions: >-
+        Documents are stored in Markdown. Always provide citations.
+          When generating reference links for docs, use https://docs.spiceai.org/<docs_path> as a template.
+          Exclude `spiceaidocs/docs` prefix from docs path and `.md` file extension.
+          Also replace `/index.md` with `/` in the path.
+          Prefer "docs" dataset for documentation and reference information questions.
+      keywords: Spice.ai, documentation, AI, Spice OSS, Spice runtime
+      reference_base_url: https://docs.spiceai.org/<docs_path>
+      
+  - from: github:github.com/ewgenius/docs/files/trunk
+    name: ewgenius_docs_files
+    description: Documentation for Spice.ai
+    params:
+      include: "**/*.md"
+    acceleration:
+      enabled: true
+    columns:
+      - name: content
+        embeddings:
+          - chunking:
+              enabled: true
+              overlap_size: 128
+              target_chunk_size: 512
+              trim_whitespace: true
+            from: openai_embeddings
+            row_id:
+              - path
+    
+embeddings:   
+  - from: openai
+    name: openai_embeddings
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+    
+models:   
+  - from: openai:gpt-4o
+    name: gpt-4o
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+      
+  - from: openai:o1
+    name: o1
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+      
+  - from: openai:o1-preview
+    name: o1-preview
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+      
+  - from: openai:o1-mini
+    name: o1-mini
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+      
+  - from: openai:o3-mini
+    name: o3-mini
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+      tools: auto
+      
+  - from: openai:o3-mini
+    name: custom-model-name
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
+      tools: auto
+      
+  - from: xai:grok-2-latest
+    name: grok-2-latest
+    params:
+      xai_api_key: ${secrets:XAI_API_KEY}
+      
+  - from: openai:gpt-4o-mini
+    name: test
+    params:
+      endpoint: https://api.openai.com/v1
+      openai_api_key: ${secrets:OPENAI_API_KEY}
+      tools: list_datasets,sql
+      
+  - from: anthropic:claude-3-5-sonnet-latest
+    name: claude
+    params:
+      anthropic_api_key: ${secrets:ANTHROPIC_API_KEY}
+      tools: auto
+    
