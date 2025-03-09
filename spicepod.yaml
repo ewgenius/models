@@ -140,48 +140,48 @@ models:
     params:
       openai_api_key: ${ secrets:OPENAI_API_KEY }
       
-  - from: openai:o1
-    name: o1
-    params:
-      openai_api_key: ${ secrets:OPENAI_API_KEY }
+  # - from: openai:o1
+  #   name: o1
+  #   params:
+  #     openai_api_key: ${ secrets:OPENAI_API_KEY }
       
-  - from: openai:o1-preview
-    name: o1-preview
-    params:
-      openai_api_key: ${ secrets:OPENAI_API_KEY }
+  # - from: openai:o1-preview
+  #   name: o1-preview
+  #   params:
+  #     openai_api_key: ${ secrets:OPENAI_API_KEY }
       
-  - from: openai:o1-mini
-    name: o1-mini
-    params:
-      openai_api_key: ${ secrets:OPENAI_API_KEY }
+  # - from: openai:o1-mini
+  #   name: o1-mini
+  #   params:
+  #     openai_api_key: ${ secrets:OPENAI_API_KEY }
       
-  - from: openai:o3-mini
-    name: o3-mini
-    params:
-      openai_api_key: ${ secrets:OPENAI_API_KEY }
-      tools: auto
+  # - from: openai:o3-mini
+  #   name: o3-mini
+  #   params:
+  #     openai_api_key: ${ secrets:OPENAI_API_KEY }
+  #     tools: auto
       
-  - from: openai:o3-mini
-    name: custom-model-name
-    params:
-      openai_api_key: ${ secrets:OPENAI_API_KEY }
-      tools: auto
+  # - from: openai:o3-mini
+  #   name: custom-model-name
+  #   params:
+  #     openai_api_key: ${ secrets:OPENAI_API_KEY }
+  #     tools: auto
       
-  - from: xai:grok-2-latest
-    name: grok-2-latest
-    params:
-      xai_api_key: ${secrets:XAI_API_KEY}
+  # - from: xai:grok-2-latest
+  #   name: grok-2-latest
+  #   params:
+  #     xai_api_key: ${secrets:XAI_API_KEY}
       
-  - from: openai:gpt-4o-mini
-    name: test
-    params:
-      endpoint: https://api.openai.com/v1
-      openai_api_key: ${secrets:OPENAI_API_KEY}
-      tools: list_datasets,sql
+  # - from: openai:gpt-4o-mini
+  #   name: test
+  #   params:
+  #     endpoint: https://api.openai.com/v1
+  #     openai_api_key: ${secrets:OPENAI_API_KEY}
+  #     tools: list_datasets,sql
       
-  - from: anthropic:claude-3-5-sonnet-latest
-    name: claude
-    params:
-      anthropic_api_key: ${secrets:ANTHROPIC_API_KEY}
-      tools: auto
+  # - from: anthropic:claude-3-5-sonnet-latest
+  #   name: claude
+  #   params:
+  #     anthropic_api_key: ${secrets:ANTHROPIC_API_KEY}
+  #     tools: auto
     
