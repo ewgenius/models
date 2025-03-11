@@ -3,20 +3,20 @@ kind: Spicepod
 version: v1
 
 catalogs:   
-  - dataset_params:
-      databricks_aws_access_key_id: ${secrets:DATASOURCE_AWS_ACCESS_KEY_ID}
-      databricks_aws_secret_access_key: ${secrets:DATASOURCE_AWS_SECRET_ACCESS_KEY}
-    from: databricks:spiceai_sandbox
-    include:
-      - demo.*
-      - tpch.*
-      - tpcds.*
-    name: db_uc
-    params:
-      databricks_cluster_id: ${secrets:SPICE_DATABRICKS_CLUSTER_ID}
-      databricks_endpoint: ${secrets:SPICE_DATABRICKS_ENDPOINT}
-      databricks_token: ${secrets:SPICE_DATABRICKS_TOKEN}
-      mode: spark_connect
+  # - dataset_params:
+  #     databricks_aws_access_key_id: ${secrets:DATASOURCE_AWS_ACCESS_KEY_ID}
+  #     databricks_aws_secret_access_key: ${secrets:DATASOURCE_AWS_SECRET_ACCESS_KEY}
+  #   from: databricks:spiceai_sandbox
+  #   include:
+  #     - demo.*
+  #     - tpch.*
+  #     - tpcds.*
+  #   name: db_uc
+  #   params:
+  #     databricks_cluster_id: ${secrets:SPICE_DATABRICKS_CLUSTER_ID}
+  #     databricks_endpoint: ${secrets:SPICE_DATABRICKS_ENDPOINT}
+  #     databricks_token: ${secrets:SPICE_DATABRICKS_TOKEN}
+  #     mode: spark_connect
       
   - from: spice.ai:spiceai/tpch
     name: spiceai_tpch
